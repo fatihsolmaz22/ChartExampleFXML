@@ -34,38 +34,9 @@ public class Controller implements Initializable {
     }
 
     private void loadData(){
-        /*paneView.getChildren().clear();
-        NumberAxis xAxis = new NumberAxis(0, 5, 1);
-        xAxis.setLabel("Term");
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Marks");
-        LineChart<Number, Number> marksChart = new LineChart<>(xAxis, yAxis);
-        marksChart.setTitle("Student Performance");
-        series = new XYChart.Series<>();
-        series.setName("performance");
-        series.getData().add(new XYChart.Data<>(0, 0));
-        series.getData().add(new XYChart.Data<>(1, 100));
-        series.getData().add(new XYChart.Data<>(2, 400));
-        series.getData().add(new XYChart.Data<>(3, 200));
-
-        marksChart.getData().add(series);
-        marksChart.setMaxWidth(300);
-        marksChart.setMaxHeight(400);
-
-        paneView.getChildren().add(marksChart);
-
-         */
 
         createChart(paneView, tesla);
     }
-
-    /*
-    @FXML
-    private void updateData(){
-        series.getData().add(new XYChart.Data<>(4, Integer.parseInt(dataToAdd.getText())));
-    }
-
-     */
 
     @FXML
     private void updateData(){
