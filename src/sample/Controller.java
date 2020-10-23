@@ -9,11 +9,21 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Controller implements Initializable {
 
     private XYChart.Series<Number, Number> series;
+
+    private Map<String, XYChart.Series<Number, Number>> mapOfChartsData = new HashMap<>();
+
+    private AtomicInteger count = new AtomicInteger(0);
+
+    // Stocks
+    private String tesla = "Tesla";
 
     @FXML private Pane paneView;
     @FXML private TextField dataToAdd;
@@ -24,7 +34,7 @@ public class Controller implements Initializable {
     }
 
     private void loadData(){
-        paneView.getChildren().clear();
+        /*paneView.getChildren().clear();
         NumberAxis xAxis = new NumberAxis(0, 5, 1);
         xAxis.setLabel("Term");
         NumberAxis yAxis = new NumberAxis();
@@ -44,11 +54,44 @@ public class Controller implements Initializable {
 
         paneView.getChildren().add(marksChart);
 
+         */
 
+        createChart(paneView, tesla);
     }
 
+    /*
     @FXML
     private void updateData(){
         series.getData().add(new XYChart.Data<>(4, Integer.parseInt(dataToAdd.getText())));
+    }
+
+     */
+
+    @FXML
+    private void updateData(){
+        mapOfChartsData.get(tesla).getData().add(new XYChart.Data<>(count.getAndIncrement(), Integer.parseInt(dataToAdd.getText())));
+    }
+
+    private void createChart(Pane paneView, String stockName){
+        paneView.getChildren().clear();
+        // create x, y Axis
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("Date");
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Stock Value");
+        // new LineChart
+        LineChart<Number, Number> stockChart = new LineChart<>(xAxis, yAxis);
+        stockChart.setTitle(stockName);
+        // create Chart Data
+        XYChart.Series<Number, Number> chartData = new XYChart.Series<>();
+        chartData.setName(stockName);
+        // put into Map
+        mapOfChartsData.put(stockName, chartData);
+        // set up stockChart
+        stockChart.getData().add(chartData);
+        stockChart.setMaxHeight(400);
+        stockChart.setMaxWidth(300);
+        // set stockChart to paneView
+        paneView.getChildren().add(stockChart);
     }
 }
