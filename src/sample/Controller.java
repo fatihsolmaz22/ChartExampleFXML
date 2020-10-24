@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.*;
@@ -7,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 
+import java.awt.font.NumericShaper;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
@@ -20,8 +22,12 @@ public class Controller implements Initializable {
 
     private AtomicInteger count = new AtomicInteger(0);
 
-    private LocalDate date = LocalDate.of(2020, Month.MARCH, 31);
-    private LocalDate date2 = LocalDate.of(2020, Month.APRIL, 5);
+    private LocalDate initialDate = LocalDate.of(2020, Month.MARCH, 31);
+    private LocalDate currentDate = initialDate;
+
+    private int padding = 1;
+    private long interval = 10;
+    private boolean showAll = false;
 
     private StringConverter<Number> stringConverter = new StringConverter<>() {
         @Override
@@ -40,6 +46,12 @@ public class Controller implements Initializable {
 
     @FXML private Pane paneView;
     @FXML private TextField dataToAdd;
+    @FXML private Button showAllButton;
+    @FXML private Button showTenDaysButton;
+    @FXML private Button show30DaysButton;
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -54,7 +66,7 @@ public class Controller implements Initializable {
     private void createChart(Pane paneView, String stockName){
         paneView.getChildren().clear();
         // create x, y Axis
-        NumberAxis xAxis = new NumberAxis(date.toEpochDay()-1, date2.toEpochDay()+5, 1);
+        NumberAxis xAxis = new NumberAxis(currentDate.toEpochDay()-padding, currentDate.toEpochDay()+1+interval, 1);
         xAxis.setLabel("Date");
         xAxis.setTickLabelFormatter(stringConverter);
         NumberAxis yAxis = new NumberAxis();
@@ -77,28 +89,53 @@ public class Controller implements Initializable {
         paneView.getChildren().add(stockChart);
     }
 
+
     @FXML
     private void updateData(){
         // this part is for updating lower-/upperbound of xAxis
         long nextDate = getAndIncrementCurrentDate();
         NumberAxis xAxis = mapOfAxis.get(tesla).getxAxis();
         if(xAxis.getUpperBound() == nextDate){
-            xAxis.setUpperBound(nextDate+1);
-            xAxis.setLowerBound(nextDate-10);
+            xAxis.setUpperBound(nextDate+padding);
+            if(showAll){
+                xAxis.setLowerBound(initialDate.toEpochDay()-padding);
+            }
+            else{ xAxis.setLowerBound(nextDate-padding-interval); }
         }
         // this is for updating data
         mapOfChartsData.get(tesla).getData().add(new XYChart.Data<>(nextDate, getRandomNumber())); // Integer.parseInt(dataToAdd.getText()))
+        System.out.println(initialDate);
     }
 
     private long getAndIncrementCurrentDate(){
-        LocalDate dateTemp = date;
-        date = date.plusDays(1);
+        LocalDate dateTemp = currentDate;
+        currentDate = currentDate.plusDays(1);
         return dateTemp.toEpochDay();
     }
 
     private long getRandomNumber(){
         Random random = new Random();
         return Math.round(100+200*random.nextDouble());
+    }
+
+    @FXML
+    public void updateTimeShow(ActionEvent event){
+        Button button = (Button) event.getSource();
+        NumberAxis xAxis = mapOfAxis.get(tesla).getxAxis();
+        if(button.equals(showAllButton)){
+            xAxis.setLowerBound(initialDate.toEpochDay()-1);
+            showAll = true;
+        }
+        else if(button.equals(showTenDaysButton)){
+            showAll = false;
+            interval = 10;
+            xAxis.setLowerBound(currentDate.toEpochDay()-padding-interval);
+        }
+        else if(button.equals(show30DaysButton)){
+            showAll = false;
+            interval = 30;
+            xAxis.setLowerBound(currentDate.toEpochDay()-padding-interval);
+        }
     }
 
     class AxisPair{
