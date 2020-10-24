@@ -19,8 +19,6 @@ public class Controller implements Initializable {
     private Map<String, XYChart.Series<Number, Number>> mapOfChartsData = new HashMap<>();
     private Map<String, AxisPair> mapOfAxis = new HashMap<>();
 
-    private AtomicInteger count = new AtomicInteger(0);
-
     private LocalDate initialDate = LocalDate.of(2020, Month.MARCH, 31);
     private LocalDate currentDate = initialDate;
 
