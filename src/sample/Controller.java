@@ -50,9 +50,6 @@ public class Controller implements Initializable {
     @FXML private Button showTenDaysButton;
     @FXML private Button show30DaysButton;
 
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         loadData();
