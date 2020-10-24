@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 
-import java.awt.font.NumericShaper;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
