@@ -18,7 +18,7 @@
                <children>
                   <Button fx:id="showTenDaysButton" mnemonicParsing="false" onAction="#updateTimeShow" text="10 Days" />
                   <Button fx:id="show30DaysButton" mnemonicParsing="false" onAction="#updateTimeShow" text="30 Days" />
-                  <Button fx:id="showAllButton" mnemonicParsing="false" onAction="#updateTimeShow" text="All" />
+                  <Button fx:id="showAllButton" mnemonicParsing="false" onAction="#updateTimeShow" text="All Time" />
                </children>
             </HBox>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateData" text="Update">
