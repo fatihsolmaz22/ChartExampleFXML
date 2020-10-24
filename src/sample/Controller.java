@@ -129,12 +129,12 @@ public class Controller implements Initializable {
         else if(button.equals(showTenDaysButton)){
             showAll = false;
             interval = 10;
-            xAxis.setLowerBound(currentDate.toEpochDay()-padding-interval);
+            xAxis.setLowerBound(currentDate.toEpochDay()-padding*2-interval);
         }
         else if(button.equals(show30DaysButton)){
             showAll = false;
             interval = 30;
-            xAxis.setLowerBound(currentDate.toEpochDay()-padding-interval);
+            xAxis.setLowerBound(currentDate.toEpochDay()-padding*2-interval);
         }
     }
 
