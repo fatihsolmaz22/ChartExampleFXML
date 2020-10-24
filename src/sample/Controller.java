@@ -15,8 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Controller implements Initializable {
 
-    private XYChart.Series<Number, Number> series;
-
     private Map<String, XYChart.Series<Number, Number>> mapOfChartsData = new HashMap<>();
     private Map<String, AxisPair> mapOfAxis = new HashMap<>();
 
@@ -98,9 +96,9 @@ public class Controller implements Initializable {
         return dateTemp.toEpochDay();
     }
 
-    private int getRandomNumber(){
+    private long getRandomNumber(){
         Random random = new Random();
-        return (int) Math.round(100+200*random.nextDouble());
+        return Math.round(100+200*random.nextDouble());
     }
 
     class AxisPair{
